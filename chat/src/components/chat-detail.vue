@@ -53,16 +53,21 @@ export default {
 }
 .piece {
     padding: 20px 30px;
-    height: 50px;
+    min-height: 50px;
     user-select: none;
+    clear: both;
 }
 .you {
-    height: 50px;
+    min-height: 50px;
+    width: 100%;
     position: relative;
+    float: left;
 }
 .me {
-    height: 50px;
+    min-height: 50px;
+    width: 100%;
     position: relative;
+    float: right;
 }
 .avatar {
     display: inline-block;
@@ -71,27 +76,32 @@ export default {
     user-select: none;
 }
 .you .content {
-    display: inline-block;
     padding: 8px 10px;
     border: 1px solid #eee;
     border-radius: 5px;
-    position: absolute;
-    top: 50%;
-    left: 65px;
-    transform: translateY(-50%);
+    margin-top: 9px;
+    float: left;
+}
+.you .avatar {
+    float: left;
+    margin-right: 10px;
 }
 .me .content {
-    display: inline-block;
     padding: 8px 10px;
     border: 1px solid #eee;
     border-radius: 5px;
-    position: absolute;
-    top: 50%;
-    right: 65px;
-    transform: translateY(-50%);
+    float: right;
+    margin-top: 9px;
 }
 .me .avatar {
     float: right;
+    margin-left: 10px;
+}
+.content {
+    max-width: 35%;
+}
+.piece:last-child .content {
+    margin-bottom: 15px;
 }
 .content p {
     /* user-select: all; */

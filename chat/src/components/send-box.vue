@@ -1,14 +1,51 @@
 <template>
     <div class='send-box'>
         <div class="bar"></div>
-        <textarea name="msg" rows="5"  maxlength="200" onchange="this.value=this.value.substring(0, 200)" onkeydown="this.value=this.value.substring(0, 200)" onkeyup="this.value=this.value.substring(0, 200)" spellcheck="false"></textarea>
-        <p class="send">发送</p>
+        <textarea v-model='msg' placeholder="输入内容 200字以内" name="msg" rows="5"  maxlength="200" onchange="this.value=this.value.substring(0, 200)" onkeydown="this.value=this.value.substring(0, 200)" onkeyup="this.value=this.value.substring(0, 200)" spellcheck="false"></textarea>
+        <p class="send" @click='sendMsg(msg)'>发送</p>
+        <p class="showTips" v-show='showTips'>不能发送空白信息！</p>
     </div>
 </template>
 
 <script>
+
+
 export default {
-    
+    data(){
+        return {
+            msg: '',
+            showTips:false,
+            state: false
+        }
+    },
+    props: [
+        'send'
+    ],
+    methods: {
+        empty(){ //简单节流
+            this.showTips = true;
+            let timer;
+            if(this.state === false){
+                this.state = true;
+                timer = setTimeout(()=>{
+                    this.showTips = false;
+                    this.state = false;
+                },2000)
+            }
+        },
+        sendMsg(msg){
+            if(msg===''){
+                this.empty();
+            }else{
+                let data = {
+                    content: msg,
+                    isMe: true
+                }
+                this.$emit('send',data);
+                this.msg = '';
+            }
+        }
+    },
 }
 </script>
 
@@ -16,6 +53,7 @@ export default {
 .bar {
     height: 15%;
     border-bottom: 1px solid #eee;
+    box-shadow: -2px 0px 5px 1px #cfcfcf;
 }
 textarea {
     width: 100%;
@@ -27,8 +65,14 @@ textarea {
     line-height: 1.5em;
     letter-spacing: 1px;
     resize: none;
-    padding: 5px 45px;
+    padding: 15px 45px;
     box-sizing: border-box;
+    box-shadow: -2px 0px 5px 1px #cfcfcf;
+}
+textarea::-webkit-input-placeholder { /* WebKit browsers */
+  color: #aaa;
+  font-size: 16px;
+  font-style: italic;
 }
 .send {
     padding: 10px 20px;
@@ -38,8 +82,27 @@ textarea {
     border-radius: 3px;
     user-select: none;
     position: absolute;
-    right: 20px;
-    bottom: 20px;
+    right: 40px;
+    bottom: 8px;
     background-color: #eee;
+}
+.showTips {
+    user-select: none;
+    display: inline-block;
+    position: absolute;
+    bottom: 68px;
+    right: 40px;
+    padding: 10px;
+    border: 1px solid #eee;
+    background-color: #fff;
+}
+.showTips::after {
+    content: '';
+    position: absolute;
+    bottom: -11px;
+    right: 10px;
+    border-top: 10px solid #eee;
+    border-right: 10px solid transparent;
+    border-left: 10px solid transparent;
 }
 </style>

@@ -35,12 +35,15 @@
             <chat-detail
                 :chatDetail='chatDetail'
             ></chat-detail>
-            <send-box></send-box>
+            <send-box
+                @send='send'
+            ></send-box>
         </div>
     </div>
 </template>
 
 <script>
+import $ from 'jquery'
 import leftBar from '@/components/left-bar'
 import userList from '@/components/user-list'
 import chatDetail from '@/components/chat-detail'
@@ -51,6 +54,9 @@ var contact1 = require('../assets/contact1.png');
 var contact2 = require('../assets/contact2.png');
 var collection1 = require('../assets/cube1.png');
 var collection2 = require('../assets/cube2.png');
+var meAvatar = require('../assets/me.png');
+var youAvatar = require('../assets/you.png');
+
 export default {
     data(){
         return {
@@ -126,38 +132,50 @@ export default {
             chatDetail: [
                 {
                     name: 'me',
-                    avatar: require('../assets/me.png'),
+                    avatar: meAvatar,
                     content: 'say something',
                     isMe: true
                 },
                 {
                     name: 'sulpures',
-                    avatar: require('../assets/you.png'),
+                    avatar: youAvatar,
                     content: 'ok',
                     isMe: false
                 },
                 {
                     name: 'me',
-                    avatar: require('../assets/me.png'),
+                    avatar: meAvatar,
                     content: 'go on',
                     isMe: true
                 },
                 {
                     name: 'me',
-                    avatar: require('../assets/me.png'),
+                    avatar: meAvatar,
                     content: 'say something',
                     isMe: true
                 },
                 {
                     name: 'sulpures',
-                    avatar: require('../assets/you.png'),
+                    avatar: youAvatar,
                     content: 'ok',
                     isMe: false
                 },
                 {
                     name: 'me',
-                    avatar: require('../assets/me.png'),
+                    avatar: meAvatar,
                     content: 'go on',
+                    isMe: true
+                },
+                {
+                    name: 'sulpures',
+                    avatar: youAvatar,
+                    content: '尽量克服静安寺覅欧健儿佛法加强我放假啊佛圣诞节佛问佛农夫酒啊就给山东分局干撒放假啊送发觉尽量克服静安寺覅欧健儿佛法加强我放假啊佛圣诞节佛问佛农夫酒啊就给山东分局干撒放假啊送发觉尽量克服静安寺覅欧健儿佛法加强我放假啊佛圣诞节佛问佛农夫酒啊就给山东分局干撒放假啊送发觉尽量克服静安寺覅欧健儿佛法加强我放假啊佛圣诞节佛问佛农夫酒啊就给山东分局干撒放假啊送发觉尽量克服静安寺覅欧健儿佛法加强我放假啊佛圣诞节佛问佛农夫酒啊就给山东分局干撒放假啊送发觉',
+                    isMe: false
+                },
+                {
+                    name: 'me',
+                    avatar: meAvatar,
+                    content: '尽量克服静安寺覅欧健儿佛法加强我放假啊佛圣诞节佛问佛农夫酒啊就给山东分局干撒放假啊送发觉尽量克服静安寺覅欧健儿佛法加强我放假啊佛圣诞节佛问佛农夫酒啊就给山东分局干撒放假啊送发觉尽量克服静安寺覅欧健儿佛法加强我放假啊佛圣诞节佛问佛农夫酒啊就给山东分局干撒放假啊送发觉尽量克服静安寺覅欧健儿佛法加强我放假啊佛圣诞节佛问佛农夫酒啊就给山东分局干撒放假啊送发觉尽量克服静安寺覅欧健儿佛法加强我放假啊佛圣诞节佛问佛农夫酒啊就给山东分局干撒放假啊送发觉',
                     isMe: true
                 },
             ],
@@ -176,10 +194,17 @@ export default {
         },
         changeName(e){
             this.name = e;
+        },
+        send(msg){
+            msg.avatar = meAvatar;
+            this.chatDetail.push(msg);
+            var chatScroll = document.querySelector('.chat-detail')
+            $('.chat-detail').animate({ scrollTop: $('.chat-detail')[0].scrollHeight }, 300);//置底
         }
     },
     mounted(){
-        this.name = this.chatList[0].name
+        this.name = this.chatList[0].name;
+        $('.chat-detail').animate({ scrollTop: $('.chat-detail')[0].scrollHeight }, 300);//置底
     }
 }
 </script>
@@ -216,6 +241,7 @@ export default {
     height: 30%;
     background-color: #fff;
     position: relative;
+    box-shadow: 0 1px 1px 1px #cfcfcf;
 }
 
 .chatList {

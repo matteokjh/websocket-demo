@@ -64,6 +64,7 @@ export default {
     border: 2px solid #eee;
     transition: all .3s;
     user-select: none;
+    height: 30px;
 }
 .s-icon {
     background-image: url('../assets/search.png');
@@ -82,6 +83,7 @@ input {
     border: none;
     background-color: #eeeeee;
     transition: all .3s;
+    line-height: 30px;
 }
 .list {
     background-color: #f8f8f8;
