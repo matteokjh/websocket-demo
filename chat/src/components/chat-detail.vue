@@ -92,6 +92,8 @@ export default {
     border-radius: 5px;
     float: right;
     margin-top: 9px;
+    min-height: 20px;
+    min-width: 20px;
 }
 .me .avatar {
     float: right;

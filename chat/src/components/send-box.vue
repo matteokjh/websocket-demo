@@ -1,6 +1,19 @@
 <template>
     <div class='send-box'>
-        <div class="bar"></div>
+        <bar>
+            <span slot='emoji' :style="{
+                backgroundImage: 'url('+emoji+')'
+            }" @click='sendEmoji()'></span>
+            <span slot='file' :style="{
+                backgroundImage: 'url('+file+')'
+            }" @click='sendFile()'></span>
+            <span slot='cut' :style="{
+                backgroundImage: 'url('+cut+')'
+            }" @click='goCut()'></span>
+            <span slot='phone' class='phone' :style="{
+                backgroundImage: 'url('+phone+')'
+            }" @click='goPhone()'></span>
+        </bar>
         <textarea v-model='msg' placeholder="输入内容 200字以内" name="msg" rows="5"  maxlength="200" onchange="this.value=this.value.substring(0, 200)" onkeydown="this.value=this.value.substring(0, 200)" onkeyup="this.value=this.value.substring(0, 200)" spellcheck="false"></textarea>
         <p class="send" @click='sendMsg(msg)'>发送</p>
         <p class="showTips" v-show='showTips'>不能发送空白信息！</p>
@@ -9,14 +22,27 @@
 
 <script>
 
+import emoji from '@/assets/emoji.png'
+import phone from '@/assets/phone.png'
+import file from '@/assets/file.png'
+import cut from '@/assets/cut.png'
+
+import bar from './bar'
 
 export default {
     data(){
         return {
             msg: '',
             showTips:false,
-            state: false
+            state: false,
+            emoji: emoji,
+            cut: cut,
+            file: file,
+            phone: phone,
         }
+    },
+    components: {
+        bar
     },
     props: [
         'send'
@@ -44,14 +70,28 @@ export default {
                 this.$emit('send',data);
                 this.msg = '';
             }
-        }
+        },
+        sendEmoji(){
+            console.warn('发送表情---未完成')
+        },
+        sendFile(){
+            console.warn('发送文件---未完成')
+        },
+        goCut(){
+            console.warn('截图---未完成')
+        },
+        goPhone(){
+            console.warn('语音聊天---未完成')
+        },
     },
 }
 </script>
 
 <style lang="css" scope>
 .bar {
-    height: 15%;
+    height: 30px;
+    display: flex;
+    align-items: center;
     border-bottom: 1px solid #eee;
     box-shadow: -2px 0px 5px 1px #cfcfcf;
 }
@@ -104,5 +144,19 @@ textarea::-webkit-input-placeholder { /* WebKit browsers */
     border-top: 10px solid #eee;
     border-right: 10px solid transparent;
     border-left: 10px solid transparent;
+}
+.bar span{
+    width: 20px;
+    height: 20px;
+    background-size: 100%;
+    margin: 0 10px;
+    cursor: pointer;
+}
+.bar span:first-child{
+    margin-left: 45px;
+}
+.phone {
+    position: absolute;
+    right: 20px;
 }
 </style>

@@ -13,16 +13,25 @@
             >
         </div>
 
-        <div class="list" v-if='index === 2'>
-            收藏
+        <div class="list presure" v-if='index === 2'>
+            <p>收藏</p>
+            <p>还没做</p>
         </div>
-        <div class="list" v-else>
+        <div class="list" v-else-if='index === 0'>
             <user-piece :key='idx' v-for='(e, idx) in chatList'
                 :avatar='e.avatar'
                 :name='e.name'
                 :time='e.time'
                 :msg='e.msg'
                 @changeName='changeName'
+            ></user-piece>
+        </div>
+        <div class="list2" v-else>
+            <user-piece :key='idx' v-for='(e, idx) in userList'
+                :avatar='e.avatar'
+                :name='e.name'
+                :time='e.time'
+                :msg='e.msg'
             ></user-piece>
         </div>
     </div>
@@ -33,7 +42,8 @@ import userPiece from './user-piece'
 export default {
     props: [
         'index',
-        'chatList'
+        'chatList',
+        'userList'
     ],
     components: {
         'user-piece': userPiece
@@ -90,6 +100,18 @@ input {
     overflow: auto;
     height: -webkit-fill-available;
     padding-bottom: 15px;
+}
+.presure {
+    text-align: center;
+}
+.list2 {
+    background-color: #f8f8f8;
+    overflow: auto;
+    height: -webkit-fill-available;
+    padding-bottom: 15px;
+}
+.list2 .user-piece {
+    line-height: 50px;
 }
 </style>
 

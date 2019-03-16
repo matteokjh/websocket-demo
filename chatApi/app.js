@@ -9,6 +9,31 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+//socket.io初始化
+var PORT = 8088;
+var server = app.listen(PORT);
+var io = require('socket.io').listen(server);
+
+
+io.sockets.on('connection', socket=>{
+    console.log('连接成功！端口：'+PORT);
+    socket.on('post',)
+});
+
+//跨域
+app.all('*',function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:9527');
+    res.header('Access-Control-Allow-Headers', 'X-Token, Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
+    res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+    
+    if (req.method == 'OPTIONS') {
+      res.send(200); /*让options请求快速返回*/
+    }
+    else {
+      next();
+    }
+})
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

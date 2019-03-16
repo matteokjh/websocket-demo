@@ -25,10 +25,11 @@
         <user-list
             :index='index'
             :chatList='chatList'
+            :userList='userList'
             @changeName="changeName"
         ></user-list>
         <!-- 右 -->
-        <div class="chat">
+        <div v-show='index === 0' class="chat">
             <div class="title">
                 <p>{{ name }}</p>
             </div>
@@ -39,6 +40,8 @@
                 @send='send'
             ></send-box>
         </div>
+
+        <div class="contact" v-show='index === 1'>123</div>
     </div>
 </template>
 
@@ -67,6 +70,56 @@ export default {
             collection1: collection1,
             collection2: collection2,
             index: 0,
+            userList: [
+                {
+                    avatar: require('../assets/you.png'),
+                    name: '尼古拉斯·赵四',
+                },
+                {
+                    avatar: require('../assets/you.png'),
+                    name: '尼古拉斯·赵四',
+                },
+                {
+                    avatar: require('../assets/you.png'),
+                    name: '尼古拉斯·赵四',
+                },
+                {
+                    avatar: require('../assets/you.png'),
+                    name: '尼古拉斯·赵四',
+                },
+                {
+                    avatar: require('../assets/you.png'),
+                    name: '尼古拉斯·赵四',
+                },
+                {
+                    avatar: require('../assets/you.png'),
+                    name: '尼古拉斯·赵四',
+                },
+                {
+                    avatar: require('../assets/you.png'),
+                    name: '尼古拉斯·赵四',
+                },
+                {
+                    avatar: require('../assets/you.png'),
+                    name: '尼古拉斯·赵四',
+                },
+                {
+                    avatar: require('../assets/you.png'),
+                    name: '尼古拉斯·赵四',
+                },
+                {
+                    avatar: require('../assets/you.png'),
+                    name: '尼古拉斯·赵四',
+                },
+                {
+                    avatar: require('../assets/you.png'),
+                    name: '尼古拉斯·赵四',
+                },
+                {
+                    avatar: require('../assets/you.png'),
+                    name: '尼古拉斯·赵四',
+                },
+            ],
             chatList: [
                 {
                     avatar: require('../assets/you.png'),
@@ -200,6 +253,7 @@ export default {
             this.chatDetail.push(msg);
             var chatScroll = document.querySelector('.chat-detail')
             $('.chat-detail').animate({ scrollTop: $('.chat-detail')[0].scrollHeight }, 300);//置底
+            console.log(WebSocket)
         }
     },
     mounted(){
@@ -223,6 +277,12 @@ export default {
     height: 100vh;
     background-color: rgb(255,255,255);
     border-right: 5px solid #eee;
+}
+.contact {
+    width: 900px;
+    height: 100vh;
+    background-color: rgb(255,255,255);
+    box-shadow: 0px 0px 2px 1px #d7d7d7;
 }
 .chat {
     width: 900px;

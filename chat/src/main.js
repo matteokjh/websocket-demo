@@ -6,6 +6,11 @@ import router from './router'
 import axios from 'axios'
 import Vuex from 'vuex'
 
+// import VueSocketio from 'vue-socket.io';
+import socketio from 'socket.io-client';
+
+// Vue.use(socketio('http://localhost:8088'));
+
 Vue.config.productionTip = false
 Vue.use(Vuex)
 Vue.prototype.$http = axios
