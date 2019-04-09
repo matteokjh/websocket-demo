@@ -37,6 +37,9 @@ export default {
 </script>
 
 <style lang="css" scope>
+.chat-detail {
+    background-color: #eee;
+}
 .title {
     margin-top: 20px;
     border-bottom: 1px solid #eee;
@@ -54,7 +57,7 @@ export default {
 .piece {
     padding: 20px 30px;
     min-height: 50px;
-    user-select: none;
+    user-select: auto;
     clear: both;
 }
 .you {
@@ -81,6 +84,7 @@ export default {
     border-radius: 5px;
     margin-top: 9px;
     float: left;
+    background-color: #fff;
 }
 .you .avatar {
     float: left;
@@ -94,6 +98,7 @@ export default {
     margin-top: 9px;
     min-height: 20px;
     min-width: 20px;
+    background-color: rgb(158,234,106);
 }
 .me .avatar {
     float: right;

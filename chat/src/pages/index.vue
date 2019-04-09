@@ -258,7 +258,7 @@ export default {
     },
     mounted(){
         this.name = this.chatList[0].name;
-        $('.chat-detail').animate({ scrollTop: $('.chat-detail')[0].scrollHeight }, 300);//置底
+        $('.chat-detail').scrollTop($('.chat-detail')[0].scrollHeight);//置底
     }
 }
 </script>
