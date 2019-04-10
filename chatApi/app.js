@@ -6,6 +6,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var Admin = require('./routes/admin');
 
 var app = express();
 
@@ -22,7 +23,7 @@ io.sockets.on('connection', socket=>{
 
 //跨域
 app.all('*',function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:9527');
+    res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'X-Token, Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
     res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
     
@@ -46,6 +47,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/admin', Admin);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
