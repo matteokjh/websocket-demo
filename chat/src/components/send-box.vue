@@ -93,7 +93,6 @@ export default {
     display: flex;
     align-items: center;
     border-bottom: 1px solid #eee;
-    box-shadow: -2px 0px 5px 1px #cfcfcf;
 }
 textarea {
     width: 100%;
@@ -107,7 +106,6 @@ textarea {
     resize: none;
     padding: 15px 45px;
     box-sizing: border-box;
-    box-shadow: -2px 0px 5px 1px #cfcfcf;
 }
 textarea::-webkit-input-placeholder { /* WebKit browsers */
   color: #aaa;

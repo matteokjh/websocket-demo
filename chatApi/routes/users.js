@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-// var crypto = require('crypto');
 
 var User = require('../model/login.model.js');
 var {getHash, getSalt} = require('../methods/cry');
@@ -15,10 +14,6 @@ mongoose.connect('mongodb://localhost:27017/chatroom', {
 /* GET users listing. */
 
 router.get('/', function (req, res, next) { // show all users
-    // let salt = getSalt(6,8);
-    // let pwd = '123';
-    // let newPwd = getHash(pwd,salt);
-    // console.log(salt,newPwd);
     User.find({},(err,data)=>{
         if(err) res.end(err);
         res.json({
@@ -29,11 +24,43 @@ router.get('/', function (req, res, next) { // show all users
     })
 });
 
-router.get('/register', function (req, res, next) { // show all users
+router.get('/login', function (req, res, next) { //登陆
+    let username = req.query.username;
+    let pwd = req.query.password;
+    // console.log(req)
+    User.find({
+        username: username
+    },(err,data)=>{
+        if(err) res.end(err);
+        if(data.length == 0){ // 找不到用户
+            res.json({
+                code: 8001,
+                msg: '用户名不存在',
+                data: data
+            })
+        }else{
+            // let hashPwd = getHash(pwd,data.salt);
+            console.log(data)
+            res.json({
+                code: 200,
+                msg: '登陆成功',
+                data: data
+            });
+        }
+        
+    })
+});
+
+router.get('/register', function (req, res, next) { //注册
+    let salt = getSalt(6,8);
+    let pwd = req.query.password;
+    // console.log(req)
+    let newPwd = getHash(pwd,salt);
     let user = new User({
-        username: req.username,
-        password: req.password,
-        email: req.email
+        username: req.query.username,
+        password: newPwd,
+        email: req.query.email,
+        salt: salt
     })
     user.save((err,data)=>{
         if(err) res.end(err);

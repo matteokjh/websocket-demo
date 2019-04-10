@@ -246,7 +246,7 @@ export default {
             this.index = e;
         },
         changeName(e){
-            this.name = e;
+            this.name = e.name;
         },
         send(msg){
             msg.avatar = meAvatar;
@@ -282,13 +282,11 @@ export default {
     width: 900px;
     height: 100vh;
     background-color: rgb(255,255,255);
-    box-shadow: 0px 0px 2px 1px #d7d7d7;
 }
 .chat {
     width: 900px;
     height: 100vh;
     background-color: rgb(255,255,255);
-    box-shadow: 0px 0px 2px 1px #d7d7d7;
 }
 .chat-detail {
     width: 100%;
@@ -301,7 +299,7 @@ export default {
     height: 30%;
     background-color: #fff;
     position: relative;
-    box-shadow: 0 1px 1px 1px #cfcfcf;
+
 }
 
 .chatList {

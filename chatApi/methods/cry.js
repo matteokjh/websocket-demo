@@ -32,9 +32,18 @@ function getSalt(...args){
 }
 
 function getHash(str,salt){
-    let md5 = crypto.createHash('md5');
-    let password = md5.update(str.concat(salt)).digest('hex');
-    return password
+    // let md5 = crypto.createHash('md5');
+    // let password = md5.update(str.concat(salt)).digest('hex');
+    // return password
+    let pwd = crypto.pbkdf2Sync(
+        str, //密码
+        salt, //盐
+        4096, //迭代次数
+        256, //长度
+        'sha256' //哈希算法
+    ).toString('hex');
+    console.log(pwd)
+    return pwd
 }
 
 module.exports = {

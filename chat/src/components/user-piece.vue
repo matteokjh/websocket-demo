@@ -1,5 +1,10 @@
 <template>
-    <div class='user-piece' @click='change(name)'>
+    <div :class="{
+        'user-piece': 1,
+        'active': active
+    }"
+        @click='change(name)'
+    >
         <div class="avatar" :style="{
             backgroundImage: 'url('+avatar+')'
         }"></div>
@@ -16,17 +21,21 @@ export default {
         'time',
         'name',
         'msg',
-        'changeName'
+        'active'
     ],
     methods: {
         change(name){
             this.$emit('changeName',name)
+            console.log(this.active)
         }
     }
 }
 </script>
 
-<style lang="css" scope>
+<style lang="css">
+.active {
+    background-color: #000;
+}
 .user-piece {
     width: calc(100% - 20px);
     height: 50px;

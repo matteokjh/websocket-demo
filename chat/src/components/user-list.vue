@@ -23,7 +23,8 @@
                 :name='e.name'
                 :time='e.time'
                 :msg='e.msg'
-                @changeName='changeName'
+                :active='idx == chosen ? true: false'
+                @changeName='changeName(e,idx)'
             ></user-piece>
         </div>
         <div class="list2" v-else>
@@ -51,15 +52,17 @@ export default {
     data(){
         return {
             focus: false,
-            name: ''
+            name: '',
+            chosen: 0
         }
     },
     methods: {
         changeSearchColor(){
             this.focus = !this.focus;
         },
-        changeName(e){
+        changeName(e,idx){
             this.$emit('changeName',e);
+            this.chosen = idx;
         }
 
     }

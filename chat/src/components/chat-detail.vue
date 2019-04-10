@@ -38,12 +38,12 @@ export default {
 
 <style lang="css" scope>
 .chat-detail {
-    background-color: #eee;
+    background-color: rgb(245,245,245);
 }
 .title {
-    margin-top: 20px;
     border-bottom: 1px solid #eee;
-    padding: 0 0 20px 15px;
+    background-color: rgb(245,245,245);
+    padding: 20px 0 20px 15px;
     user-select: none;
     height: 35px;
     line-height: 35px;
