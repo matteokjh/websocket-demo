@@ -42,7 +42,6 @@ function getHash(str,salt){
         256, //长度
         'sha256' //哈希算法
     ).toString('hex');
-    console.log(pwd)
     return pwd
 }
 

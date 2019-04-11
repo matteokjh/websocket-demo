@@ -27,7 +27,6 @@ router.get('/', function (req, res, next) { // show all users
 router.get('/login', function (req, res, next) { //登陆
     let username = req.query.username;
     let pwd = req.query.password;
-    // console.log(req)
     User.find({
         username: username
     },(err,data)=>{
@@ -35,17 +34,23 @@ router.get('/login', function (req, res, next) { //登陆
         if(data.length == 0){ // 找不到用户
             res.json({
                 code: 8001,
-                msg: '用户名不存在',
-                data: data
+                msg: '用户名或密码错误！'
             })
         }else{
-            // let hashPwd = getHash(pwd,data.salt);
-            console.log(data)
-            res.json({
-                code: 200,
-                msg: '登陆成功',
-                data: data
-            });
+            let hashPwd = getHash(pwd,data[0].salt);
+            if(hashPwd == data[0].password){
+                res.json({
+                    code: 200,
+                    msg: '登陆成功',
+                    data: data[0]
+                });
+            }else{
+                res.json({
+                    code: 8002,
+                    msg: '用户名或密码错误！'
+                })
+            }
+            
         }
         
     })
