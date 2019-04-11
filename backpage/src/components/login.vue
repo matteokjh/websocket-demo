@@ -3,8 +3,8 @@
     <h1>{{ msg }}</h1>
     <h2>管理员请登录</h2>
     <div class="wrapper">
-      <input v-model="usr" class="username" type="text" autocomplete="off" spellcheck="false">
-      <input v-model="pwd" class="pwd" type="password" autocomplete="off" spellcheck="false">
+      <input v-model="usr" type="text" autocomplete="off" spellcheck="false">
+      <input v-model="pwd" type="password" autocomplete="off" spellcheck="false">
       <div class="submit" @click="submit">Submit</div>
     </div>
   </div>
