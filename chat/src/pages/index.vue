@@ -82,6 +82,7 @@
 
 <script>
 import $ from "jquery";
+import api from "@/api/api";
 import leftBar from "@/components/left-bar";
 import userList from "@/components/user-list";
 import chatDetail from "@/components/chat-detail";
@@ -285,21 +286,21 @@ export default {
   },
   methods: {
     check() {
-      if(event.target.value){
-		  if(event.target.id == 'pwd'){
-			  this.pwdFocus = true;
-		  }else if(event.target.id == 'usr'){
-			  this.usrFocus = true;
-		  }
-	  }else{
-		  if(event.target.id == 'pwd'){
-			  this.pwdFocus = false;
-		  }else if(event.target.id == 'usr'){
-			  this.usrFocus = false;
-		  }
-	  }
-    //   this.usr == "" ? (this.usrFocus = false) : "";
-    //   this.pwd == "" ? (this.pwdFocus = false) : "";
+      if (event.target.value) {
+        if (event.target.id == "pwd") {
+          this.pwdFocus = true;
+        } else if (event.target.id == "usr") {
+          this.usrFocus = true;
+        }
+      } else {
+        if (event.target.id == "pwd") {
+          this.pwdFocus = false;
+        } else if (event.target.id == "usr") {
+          this.usrFocus = false;
+        }
+      }
+      //   this.usr == "" ? (this.usrFocus = false) : "";
+      //   this.pwd == "" ? (this.pwdFocus = false) : "";
     },
     focus(n) {
       if (n == 0) {
@@ -310,7 +311,28 @@ export default {
       }
     },
     login() {
-      console.warn("登录");
+      // 用户登录
+      let pwd = this.pwd;
+      let usr = this.usr;
+      if (pwd == "" || usr == "") {
+        alert("用户名或密码不能为空！");
+      } else {
+        console.warn("用户登录：", {
+          username: usr
+        });
+        api.userLogin(usr, pwd).then(res => {
+          let data = res.data;
+          if (data.code == 200) {
+            //登录成功
+            console.log(data);
+            this.hasToken = true;
+          } else {
+            alert("用户名或密码错误！");
+            this.usr = "";
+            this.pwd = "";
+          }
+        });
+      }
     },
     changeIndex(e) {
       this.index = e;
@@ -330,14 +352,20 @@ export default {
     }
   },
   mounted() {
-    if (this.hasToken) {
-      // 登录了
-      this.name = this.chatList[0].name;
-      $(".chat-detail").scrollTop($(".chat-detail")[0].scrollHeight); //置底
-    } else {
-      //未登录
-      console.log(document.cookie);
-    }
+    // 更新token，不需要设置什么，拦截器帮忙做了
+    api.getToken().then(res=>{
+        if(localStorage.getItem('token')){
+            this.hasToken = true;
+            // 登录了
+            this.$nextTick(()=>{
+                this.name = this.chatList[0].name;
+                let t = $(".chat-detail")[0].scrollHeight;
+                $(".chat-detail").scrollTop(t); //置底
+            })
+        }
+    })
+
+    
   }
 };
 </script>
@@ -388,7 +416,7 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  transition: all 0.5s;
+  transition: all 0.3s;
 }
 .login-box > div p.focus {
   font-size: 12px;

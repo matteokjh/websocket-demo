@@ -11,6 +11,8 @@ mongoose.connect('mongodb://localhost:27017/chatroom', {
     useNewUrlParser: true
 });
 
+const EXPIRE = 60 * 60 * 24; // token一天过期
+
 
 
 /* GET users listing. */
@@ -26,9 +28,32 @@ router.get('/', function (req, res, next) { // show all users
     })
 });
 
+router.get('/token',(req,res)=>{ // 因为有拦截器，这里不需要验证token了，来到这里token必定通过
+    let token = req.headers.authorization.split(' ')[1];
+    jwt.verify(token,'secretKey',(err,r)=>{
+        if(err) console.log(err)
+        else{
+            let a = jwt.sign(
+                { // tokenObj
+                    username: r.username
+                },
+                'secretKey', // 密钥，没有
+                { // 过期时间/s
+                    expiresIn: EXPIRE // 一天
+                }
+            )
+            res.json({
+                code: 200,
+                msg: 'token',
+                token: a
+            })
+        }
+    })
+})
+
 router.post('/login', function (req, res, next) { //登陆
-    let username = req.query.username;
-    let pwd = req.query.password;
+    let username = req.body.username;
+    let pwd = req.body.password;
     if(pwd == undefined || username == undefined) 
         res.end(JSON.stringify({
             code: 8004,
@@ -54,13 +79,13 @@ router.post('/login', function (req, res, next) { //登陆
                         },
                         'secretKey', // 密钥，没有
                         { // 过期时间/s
-                            expiresIn: 60*60*24 // 一天
+                            expiresIn: EXPIRE // 一天
                         }
                     )
                     res.json({
                         code: 200,
                         msg: '登陆成功',
-                        data: token
+                        token: token
                     });
                 }else{
                     res.json({
