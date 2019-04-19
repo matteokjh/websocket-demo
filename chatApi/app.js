@@ -6,6 +6,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var chatRouter = require('./routes/chat');
 var Admin = require('./routes/admin');
 
 var app = express();
@@ -18,7 +19,9 @@ var io = require('socket.io').listen(server);
 
 io.sockets.on('connection', socket=>{
     console.log('连接成功！端口：'+PORT);
-    socket.on('post',)
+    socket.on('send',res=>{
+        console.log(res.content)
+    })
 });
 
 //跨域
@@ -47,6 +50,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/chat', chatRouter);
 app.use('/admin', Admin);
 
 // catch 404 and forward to error handler

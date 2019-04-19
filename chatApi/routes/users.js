@@ -15,6 +15,7 @@ const EXPIRE = 60 * 60 * 24; // token一天过期
 
 
 
+
 /* GET users listing. */
 
 router.get('/', function (req, res, next) { // show all users
@@ -31,7 +32,7 @@ router.get('/', function (req, res, next) { // show all users
 router.get('/token',(req,res)=>{ // 因为有拦截器，这里不需要验证token了，来到这里token必定通过
     let token = req.headers.authorization.split(' ')[1];
     jwt.verify(token,'secretKey',(err,r)=>{
-        if(err) console.log(err)
+        if(err) res.end(err)
         else{
             let a = jwt.sign(
                 { // tokenObj

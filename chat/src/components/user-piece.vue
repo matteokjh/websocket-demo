@@ -26,7 +26,6 @@ export default {
     methods: {
         change(name){
             this.$emit('changeName',name)
-            console.log(this.active)
         }
     }
 }
@@ -34,7 +33,7 @@ export default {
 
 <style lang="css">
 .active {
-    background-color: #000;
+    background-color: #d4d4d4!important;
 }
 .user-piece {
     width: calc(100% - 20px);

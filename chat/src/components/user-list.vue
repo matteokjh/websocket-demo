@@ -32,7 +32,6 @@
                 :avatar='e.avatar'
                 :name='e.name'
                 :time='e.time'
-                :msg='e.msg'
             ></user-piece>
         </div>
     </div>
@@ -69,7 +68,7 @@ export default {
 }
 </script>
 
-<style lang="css" scope>
+<style lang="css">
 .search {
     display: flex;
     margin: 40px 15px 20px 15px;
@@ -89,7 +88,7 @@ export default {
     background-repeat: no-repeat;
 
 }
-input {
+.index input {
     outline: none;
     width: 80%;
     height: 30px;

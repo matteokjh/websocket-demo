@@ -1,5 +1,7 @@
 import axios from 'axios'
+import io from 'socket.io-client';
 
+const socket = io('http://localhost:8088');
 //切换环境
 if (process.env.NODE_ENV == 'development') {
     axios.defaults.baseURL = 'http://localhost:3000';
@@ -29,13 +31,14 @@ axios.interceptors.response.use(res=>{
     let err = error.response;
     if(err.status == 401){ // 过期
         localStorage.removeItem('token');
-        
     }
 
-    return Promise.reject(error.message)
+    return Promise.reject(error)
 })
 
+// 以下为接口
 
+//登录
 async function userLogin(usr, pwd) {
     const res = await axios.post('/users/login', {
         username: usr,
@@ -43,13 +46,24 @@ async function userLogin(usr, pwd) {
     });
     return res;
 }
-
+//获取token
 async function getToken() {
     const res = await axios.get('/users/token');
     return res;
 }
+//获取聊天列表
+async function getChatList() {
+    const res = await axios.get('/chat/chatlist');
+    return res;
+}
+//传消息
+async function sendMsg(msg) {
+    socket.emit('send',msg)
+}
 
 export default {
     userLogin,
-    getToken
+    getToken,
+    getChatList,
+    sendMsg,
 }

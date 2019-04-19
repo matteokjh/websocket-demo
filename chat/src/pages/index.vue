@@ -1,40 +1,5 @@
 <template>
-  <div class="user-login" v-if="!hasToken">
-    <h1>Casterの聊天室</h1>
-    <h2>用户登录</h2>
-    <div class="login-box">
-      <div>
-        <p :class="{
-				'focus': usrFocus
-			}">username</p>
-        <input
-          id="usr"
-          autocomplete="off"
-          @focus="focus(0)"
-          @blur="check"
-          v-model="usr"
-          type="text"
-          spellcheck="false"
-        >
-      </div>
-      <div>
-        <p :class="{
-				'focus': pwdFocus
-			}">password</p>
-        <input
-          id="pwd"
-          autocomplete="new-password"
-          @focus="focus(1)"
-          @blur="check"
-          v-model="pwd"
-          type="password"
-          spellcheck="false"
-        >
-      </div>
-      <p class="login" @click="login">登录</p>
-    </div>
-  </div>
-  <div v-else-if="hasToken" class="index">
+  <div v-if="hasToken" class="index" @click='()=>setting=false'>
     <!-- 左 -->
     <left-bar>
       <div slot="avatar" class="me-avatar"></div>
@@ -63,20 +28,27 @@
 					backgroundSize: index === 2 ? '100%' : '92%'
 				}"
       ></div>
-      <div slot="setting" class="setting"></div>
+      <div slot="setting" class="setting" @click.stop='()=>setting=true'></div>
+      <div slot="s-wrapper" v-show='setting' class="s-wrapper">
+          <div class='idea'>意见反馈</div>
+          <div class='logout' @click='logout()'>退出登录</div>
+      </div>
     </left-bar>
     <!-- 中 -->
     <user-list :index="index" :chatList="chatList" :userList="userList" @changeName="changeName"></user-list>
     <!-- 右 -->
-    <div v-show="index === 0" class="chat">
-      <div class="title">
-        <p>{{ name }}</p>
+    <div class="right">
+      <div v-show="index === 0 && chatChosen != ''" class="chat">
+        <div class="title">
+          <p>{{ name }}</p>
+        </div>
+        <chat-detail :chatDetail="chatDetail"></chat-detail>
+        <send-box @send="send"></send-box>
       </div>
-      <chat-detail :chatDetail="chatDetail"></chat-detail>
-      <send-box @send="send"></send-box>
-    </div>
 
-    <div class="contact" v-show="index === 1">123</div>
+      <div class="contact" v-show="index === 1 && userChosen != ''">123</div>
+
+    </div>
   </div>
 </template>
 
@@ -159,64 +131,16 @@ export default {
       chatList: [
         {
           avatar: require("../assets/you.png"),
-          name: "尼古拉斯·赵四",
-          msg: "测试测试测试123456123123123",
+          name: "Issac",
+          msg: "测试测issac",
           time: "3:51"
         },
         {
           avatar: require("../assets/you.png"),
-          name: "sulpures1",
-          msg: "asdfasdf",
+          name: "milia",
+          msg: "测试milia",
           time: "4:51"
         },
-        {
-          avatar: require("../assets/you.png"),
-          name: "sulpures2",
-          msg: "134634745143",
-          time: "5:51"
-        },
-        {
-          avatar: require("../assets/you.png"),
-          name: "sulpures3",
-          msg: "99999999999999",
-          time: "6:51"
-        },
-        {
-          avatar: require("../assets/you.png"),
-          name: "sulpures4",
-          msg: "zcvnnnnnnnnnn",
-          time: "7:51"
-        },
-        {
-          avatar: require("../assets/you.png"),
-          name: "sulpures",
-          msg: "测试测试测试123456123123123",
-          time: "3:51"
-        },
-        {
-          avatar: require("../assets/you.png"),
-          name: "sulpures1",
-          msg: "asdfasdf",
-          time: "4:51"
-        },
-        {
-          avatar: require("../assets/you.png"),
-          name: "sulpures2",
-          msg: "134634745143",
-          time: "5:51"
-        },
-        {
-          avatar: require("../assets/you.png"),
-          name: "sulpures3",
-          msg: "99999999999999",
-          time: "6:51"
-        },
-        {
-          avatar: require("../assets/you.png"),
-          name: "sulpures4",
-          msg: "zcvnnnnnnnnnn",
-          time: "7:51"
-        }
       ],
       chatDetail: [
         {
@@ -230,52 +154,13 @@ export default {
           avatar: youAvatar,
           content: "ok",
           isMe: false
-        },
-        {
-          name: "me",
-          avatar: meAvatar,
-          content: "go on",
-          isMe: true
-        },
-        {
-          name: "me",
-          avatar: meAvatar,
-          content: "say something",
-          isMe: true
-        },
-        {
-          name: "sulpures",
-          avatar: youAvatar,
-          content: "ok",
-          isMe: false
-        },
-        {
-          name: "me",
-          avatar: meAvatar,
-          content: "go on",
-          isMe: true
-        },
-        {
-          name: "sulpures",
-          avatar: youAvatar,
-          content:
-            "尽量克服静安寺覅欧健儿佛法加强我放假啊佛圣诞节佛问佛农夫酒啊就给山东分局干撒放假啊送发觉尽量克服静安寺覅欧健儿佛法加强我放假啊佛圣诞节佛问佛农夫酒啊就给山东分局干撒放假啊送发觉尽量克服静安寺覅欧健儿佛法加强我放假啊佛圣诞节佛问佛农夫酒啊就给山东分局干撒放假啊送发觉尽量克服静安寺覅欧健儿佛法加强我放假啊佛圣诞节佛问佛农夫酒啊就给山东分局干撒放假啊送发觉尽量克服静安寺覅欧健儿佛法加强我放假啊佛圣诞节佛问佛农夫酒啊就给山东分局干撒放假啊送发觉",
-          isMe: false
-        },
-        {
-          name: "me",
-          avatar: meAvatar,
-          content:
-            "尽量克服静安寺覅欧健儿佛法加强我放假啊佛圣诞节佛问佛农夫酒啊就给山东分局干撒放假啊送发觉尽量克服静安寺覅欧健儿佛法加强我放假啊佛圣诞节佛问佛农夫酒啊就给山东分局干撒放假啊送发觉尽量克服静安寺覅欧健儿佛法加强我放假啊佛圣诞节佛问佛农夫酒啊就给山东分局干撒放假啊送发觉尽量克服静安寺覅欧健儿佛法加强我放假啊佛圣诞节佛问佛农夫酒啊就给山东分局干撒放假啊送发觉尽量克服静安寺覅欧健儿佛法加强我放假啊佛圣诞节佛问佛农夫酒啊就给山东分局干撒放假啊送发觉",
-          isMe: true
         }
       ],
       name: "", //当前聊天框
       hasToken: false,
-      usrFocus: false,
-      pwdFocus: false,
-      pwd: "",
-      usr: ""
+      chatChosen: "",
+      userChosen: "",
+      setting: false
     };
   },
   components: {
@@ -285,60 +170,12 @@ export default {
     "send-box": sendBox
   },
   methods: {
-    check() {
-      if (event.target.value) {
-        if (event.target.id == "pwd") {
-          this.pwdFocus = true;
-        } else if (event.target.id == "usr") {
-          this.usrFocus = true;
-        }
-      } else {
-        if (event.target.id == "pwd") {
-          this.pwdFocus = false;
-        } else if (event.target.id == "usr") {
-          this.usrFocus = false;
-        }
-      }
-      //   this.usr == "" ? (this.usrFocus = false) : "";
-      //   this.pwd == "" ? (this.pwdFocus = false) : "";
-    },
-    focus(n) {
-      if (n == 0) {
-        this.usrFocus = true;
-      } else if (n == 1) {
-        // event.target.removeAttribute('readonly')
-        this.pwdFocus = true;
-      }
-    },
-    login() {
-      // 用户登录
-      let pwd = this.pwd;
-      let usr = this.usr;
-      if (pwd == "" || usr == "") {
-        alert("用户名或密码不能为空！");
-      } else {
-        console.warn("用户登录：", {
-          username: usr
-        });
-        api.userLogin(usr, pwd).then(res => {
-          let data = res.data;
-          if (data.code == 200) {
-            //登录成功
-            console.log(data);
-            this.hasToken = true;
-          } else {
-            alert("用户名或密码错误！");
-            this.usr = "";
-            this.pwd = "";
-          }
-        });
-      }
-    },
     changeIndex(e) {
       this.index = e;
     },
-    changeName(e) {
+    changeName(e) { // 点击列表请求聊天详情
       this.name = e.name;
+      this.chatChosen = e;
     },
     send(msg) {
       msg.avatar = meAvatar;
@@ -348,89 +185,46 @@ export default {
         { scrollTop: $(".chat-detail")[0].scrollHeight },
         300
       ); //置底
-      console.log(WebSocket);
+      api.sendMsg(msg);
+    },
+    getDetail() {
+      this.$nextTick(() => {
+        this.name = this.chatList[0].name;
+        let t = $(".chat-detail")[0].scrollHeight;
+        $(".chat-detail").scrollTop(t); //置底
+      });
+    },
+    logout(){
+        localStorage.removeItem('token');
+        this.$router.push('/login')
     }
   },
   mounted() {
     // 更新token，不需要设置什么，拦截器帮忙做了
-    api.getToken().then(res=>{
-        if(localStorage.getItem('token')){
-            this.hasToken = true;
-            // 登录了
-            this.$nextTick(()=>{
-                this.name = this.chatList[0].name;
-                let t = $(".chat-detail")[0].scrollHeight;
-                $(".chat-detail").scrollTop(t); //置底
-            })
-        }
-    })
-
-    
+    if (localStorage.getItem("token")) {
+      api
+        .getToken()
+        .then(res => {
+          this.hasToken = true;
+          // 获取聊天列表
+          api.getChatList().then(chatList => {
+            console.log(chatList);
+          });
+        })
+        .catch(err => {
+          console.warn("token过期");
+          this.$router.push("/login");
+        });
+    } else {
+      // token 为空
+      console.warn("token为空");
+      this.$router.push("/login");
+    }
   }
 };
 </script>
 
 <style>
-.user-login {
-  user-select: none;
-  text-align: center;
-  background-color: #eee;
-  width: 100vw;
-  height: 100vh;
-}
-.user-login > h1 {
-  padding-top: 50px;
-  margin-bottom: 40px;
-}
-.login-box {
-  width: 500px;
-  height: 200px;
-  margin: 30px auto;
-  padding-top: 50px;
-  background-color: #fff;
-}
-.login-box > div {
-  display: block;
-  position: relative;
-  width: 200px;
-  margin: 0 auto;
-}
-.login-box > div input {
-  display: block;
-  position: relative;
-  height: 40px;
-  padding-left: 20px;
-  margin: 0 auto 30px auto;
-  border: none;
-  border-radius: 20px;
-  outline: none;
-  box-sizing: border-box;
-  border: 1px solid #7575ff;
-}
-.login-box > div p {
-  color: #7575ff;
-  z-index: 2;
-  pointer-events: none;
-  position: absolute;
-  font-size: 16px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transition: all 0.3s;
-}
-.login-box > div p.focus {
-  font-size: 12px;
-  transform: translate(-130%, -200%);
-  background-color: #fff;
-  padding: 0 3px;
-}
-.login {
-  display: inline;
-  padding: 10px 20px;
-  background-color: #7d7dff;
-  color: #fff;
-  cursor: pointer;
-}
 .index {
   width: 100vw;
   height: 100vh;
@@ -445,15 +239,39 @@ export default {
   background-color: rgb(255, 255, 255);
   border-right: 5px solid #eee;
 }
-.contact {
+.s-wrapper {
+    position: absolute;
+    bottom: 10px;
+    left: 60px;
+    width: 150px;
+    background-color: rgb(50,50,50);
+}
+.s-wrapper > div {
+    text-align: center;
+    color: #eee;
+    background-color: rgb(30,30,30);
+    padding: 15px 10px;
+    cursor: pointer;
+}
+.s-wrapper > div:hover {
+    background-color: rgb(50,50,50);
+}
+.right {
   width: 900px;
   height: 100vh;
-  background-color: rgb(255, 255, 255);
+  background-image: url("../assets/saan.png");
+  background-size: 60%;
+  background-position: center;
+  background-repeat: no-repeat;
 }
+
 .chat {
   width: 900px;
   height: 100vh;
-  background-color: rgb(255, 255, 255);
+  background-image: url("../assets/saan.png");
+  background-size: 80%;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 .chat-detail {
   width: 100%;
