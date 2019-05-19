@@ -200,6 +200,7 @@ export default {
     }
   },
   mounted() {
+      
     // 更新token，不需要设置什么，拦截器帮忙做了
     if (localStorage.getItem("token")) {
       api
